@@ -1,8 +1,10 @@
-s = input("Введите строку: ")
+def count_leap_years(n):
+    # Считаем количество високосных лет по правилам
+    leap_years = (n // 4) - (n // 100) + (n // 400)
+    return leap_years
 
-s = s.replace(" ", "").lower()
+# Ввод числа n
+n = int(input("Введите год: "))
 
-if s == s[::-1]:
-    print("Строка является палиндромом.")
-else:
-    print("Строка не является палиндромом.")
+# Вывод результата
+print(count_leap_years(n))

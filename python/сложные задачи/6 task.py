@@ -1,19 +1,11 @@
-import math
+def miss_you(array1, array2):
+    set_array1 = set(array1)
 
+    missing_numbers = [num for num in array2 if num not in set_array1]
+    
+    return sorted(missing_numbers)
 
-def is_perfect_square(n):
-    sqrt_n = int(math.sqrt(n))
-    return sqrt_n * sqrt_n == n
-
-
-def is_fibonacci_number(n):
-    expr1 = 5 * n * n + 4
-    expr2 = 5 * n * n - 4
- 
-    return is_perfect_square(expr1) or is_perfect_square(expr2)
-
-n = int(input("Введите число: "))
-if is_fibonacci_number(n):
-    print(f"Число {n} является числом Фибоначчи.")
-else:
-    print(f"Число {n} не является числом Фибоначчи.")
+# Sample Input
+array1 = [1, 1, 3, 2, 5]
+array2 = [1, 3, 9, 1, 5, 7]
+print(miss_you(array1, array2))  # Output: [7, 9]

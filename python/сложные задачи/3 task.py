@@ -1,17 +1,14 @@
-# Функция для проверки, является ли число простым
-def is_prime(n):
-    if n <= 1:  
-        return False
-    for i in range(2, int(n ** 0.5) + 1):  # делители до квадратного корня из n
-        if n % i == 0:
-            return False
-    return True
+def swap_bits(a):
+    # Получаем старшие 4 бита
+    high_bits = a >> 4
+    # Получаем младшие 4 бита
+    low_bits = a & 0x0F
+    # Меняем местами старшие и младшие биты
+    result = (low_bits << 4) | high_bits
+    return result
 
-# ввод числа
-number = int(input("Введите число: "))
+# Ввод числа
+a = int(input("Введите число: "))
 
-# вывод
-if is_prime(number):
-    print(f"Число {number} является простым.")
-else:
-    print(f"Число {number} не является простым.")
+# Вывод результата
+print(swap_bits(a))

@@ -1,18 +1,16 @@
-def is_perfect_number(n):
-    if n <= 1:
-        return False
+def perfectly_balanced(array):
+    total_sum = sum(array)  # Общая сумма массива
+    left_sum = 0  # Инициализируем сумму слева
     
-    divisors_sum = 0
+    for i in range(len(array)):
+        # Проверяем, если сумма слева равна сумме справа
+        if left_sum == (total_sum - left_sum - array[i]):
+            return True  # Суммы равны, возвращаем True
+        
+        # Обновляем сумму слева
+        left_sum += array[i]
+    
+    return False  # Если не нашли сбалансированный элемент, возвращаем False
 
-    for i in range(1, n):
-        if n % i == 0:
-            divisors_sum += i
-
-    return divisors_sum == n
-
-n = int(input("Введите число: "))
-
-if is_perfect_number(n):
-    print(f"Число {n} является совершенным числом.")
-else:
-    print(f"Число {n} не является совершенным числом.")
+input_array = [1, 2, 9, 8, 5, 7]
+print(perfectly_balanced(input_array))  # Вывод: True

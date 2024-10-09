@@ -1,18 +1,16 @@
-def find_perfect_numbers(limit):
-    perfect_numbers = []
+def median(array):
+    if not array:
+        return None  
     
-    for num in range(2, limit + 1):
-        divisors_sum = 0
-        
-        for i in range(1, num):
-            if num % i == 0:
-                divisors_sum += i
-  
-        if divisors_sum == num:
-            perfect_numbers.append(num)
+    sorted_array = sorted(array)
+    n = len(sorted_array)
+ 
+    mid = n // 2  
     
-    return perfect_numbers
+    if n % 2 == 0: 
+        return sorted_array[mid - 1]  
+    else: 
+        return sorted_array[mid]  
 
-limit = int(input ("Установите диапазон меньше 1000: "))
-perfect_numbers = find_perfect_numbers(limit)
-print(f"Совершенные числа в диапазоне от 0 до {limit}: {perfect_numbers}")
+input_array = [1, 2, 3]
+print(median(input_array))  

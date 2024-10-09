@@ -1,15 +1,20 @@
-def determine_season(day, month):
-    if month in [12, 1, 2]:
-        return "Зима"
-    elif month in [3, 4, 5]:
-        return "Весна"
-    elif month in [6, 7, 8]:
-        return "Лето"
-    elif month in [9, 10, 11]:
-        return "Осень"
+def stock_buy(m, prices):
+    price_index_map = {}  # Словарь для хранения цен и их индексов
+    
+    for index, price in enumerate(prices):
+        # Вычисляем, сколько денег нужно для достижения суммы m
+        complement = m - price
+        
+        # Проверяем, есть ли нужная цена в словаре
+        if complement in price_index_map:
+            # Возвращаем отсортированные индексы
+            return sorted([price_index_map[complement], index])
+        
+        # Добавляем текущую цену и ее индекс в словарь
+        price_index_map[price] = index
 
-day = int(input("Введите день: "))
-month = int(input("Введите месяц: "))
-
-season = determine_season(day, month)
-print(f"Дата {day}.{month} попадает в сезон: {season}.")
+# Пример использования
+m = 3
+s = [1, 2, 3]
+result = stock_buy(m, s)
+print(result)  # Вывод: [1, 3]

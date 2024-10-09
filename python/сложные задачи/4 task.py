@@ -1,12 +1,15 @@
-from datetime import datetime
+def sort_three_numbers(a, b, c):
+    if a > b:
+        a, b = b, a  
+    if a > c:
+        a, c = c, a  
+    if b > c:
+        b, c = c, b  
 
-def is_valid_date(date_string):
-    try:
-        date = datetime.strptime(date_string, "%d.%m.%Y")
-        print(f"Дата {date_string} корректна.")
-    except ValueError:
-        print(f"Дата {date_string} некорректна.")
+    print(a, b, c)
 
-# Пример использования
-date_string = input("Введите дату в формате 'дд.мм.гггг': ")
-is_valid_date(date_string)
+# Ввод трех чисел
+a, b, c = map(int, input("Введите три числа через пробел: ").split())
+
+# Вывод отсортированных чисел
+sort_three_numbers(a, b, c)
