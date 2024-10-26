@@ -33,28 +33,32 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
         error_log /var/log/nginx/api_proxy_error.log debug;
     }
+
+    location /secret_word {
+        allow 192.0.0.0/20;  
+        deny 192.0.0.1;       
+        deny all;
+        return 203 'jusan-nginx-ip';
+        add_header Content-Type text/plain;
+    }
 }
+
 ```
 
 ## bash
 ```bash
-$ curl --user marketing:marketingP@ssword http://example.com:8080/gifs/
-<html>
-<head><title>Index of /gifs/</title></head>
-<body>
-<h1>Index of /gifs/</h1><hr><pre><a href="../">../</a>
-<a href="__MACOSX/">__MACOSX/</a>                                          24-Oct-2024 13:09                   -
-<a href="dancing.gif">dancing.gif</a>                                        24-Oct-2024 13:09              253794
-<a href="jam.gif">jam.gif</a>                                            24-Oct-2024 13:09              471720
-<a href="sad.gif">sad.gif</a>                                            24-Oct-2024 13:09             3605836
-</pre><hr></body>
-</html>
+$ curl -H "Host: example.com" -i http://localhost:8080/secret_word
+HTTP/1.1 404 Not Found
+Server: nginx/1.20.1
+Date: Thu, 24 Oct 2024 16:30:51 GMT
+Content-Type: text/html
+Content-Length: 153
+Connection: keep-alive
 
-$ curl --user design:SteveJobs1955 http://localhost:8080/gifs
 <html>
-<head><title>301 Moved Permanently</title></head>
+<head><title>404 Not Found</title></head>
 <body>
-<center><h1>301 Moved Permanently</h1></center>
+<center><h1>404 Not Found</h1></center>
 <hr><center>nginx/1.20.1</center>
 </body>
 </html>

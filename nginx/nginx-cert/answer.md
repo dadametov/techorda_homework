@@ -33,30 +33,38 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
         error_log /var/log/nginx/api_proxy_error.log debug;
     }
+
+
+    location /secret_word {
+        allow 192.0.0.0/20;
+        deny 192.0.0.1;
+        deny all;
+        return 203 'jusan-nginx-ip';
+        add_header Content-Type text/plain;
+    }
+
 }
+
+################ ssl
+
+server {
+    listen 443 ssl;
+    server_name jusan.kz;
+
+    ssl_certificate /etc/nginx/ssl/track-devops.crt;       # Укажите путь к сертификату
+    ssl_certificate_key /etc/nginx/ssl/track-devops.key;   # Укажите путь к приватному ключу
+    ssl_dhparam /etc/nginx/ssl/dhparam.pem;          # Укажите путь к файлу dhparam
+
+    location /secret_word {
+        default_type text/plain;
+        return 201 'jusan-nginx-cert';
+    }
+}
+
 ```
 
 ## bash
 ```bash
-$ curl --user marketing:marketingP@ssword http://example.com:8080/gifs/
-<html>
-<head><title>Index of /gifs/</title></head>
-<body>
-<h1>Index of /gifs/</h1><hr><pre><a href="../">../</a>
-<a href="__MACOSX/">__MACOSX/</a>                                          24-Oct-2024 13:09                   -
-<a href="dancing.gif">dancing.gif</a>                                        24-Oct-2024 13:09              253794
-<a href="jam.gif">jam.gif</a>                                            24-Oct-2024 13:09              471720
-<a href="sad.gif">sad.gif</a>                                            24-Oct-2024 13:09             3605836
-</pre><hr></body>
-</html>
-
-$ curl --user design:SteveJobs1955 http://localhost:8080/gifs
-<html>
-<head><title>301 Moved Permanently</title></head>
-<body>
-<center><h1>301 Moved Permanently</h1></center>
-<hr><center>nginx/1.20.1</center>
-</body>
-</html>
-
+$  curl -H "Host: jusan.kz" -k https://localhost/secret_word
+jusan-nginx-cert
 ```
