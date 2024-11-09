@@ -28,7 +28,7 @@ async def track_metrics(request: Request, call_next):
     response = await call_next(request)
     duration = (time.time() - start_time) * 1000  # в миллисекундах
 
-    # Обновление
+    # Обновляем метрики
     http_requests_total.labels(method=method, endpoint=endpoint).inc()
     http_requests_milliseconds.labels(method=method, endpoint=endpoint).observe(duration)
 
@@ -39,11 +39,11 @@ async def track_metrics(request: Request, call_next):
 async def metrics():
     return Response(generate_latest(), media_type="text/plain")
 
-# Маршруты
+# Ваши маршруты
 @app.get("/sum1n/{n}")
 def sum1n(n: int):
     result = sum(range(1, n + 1))
-    last_sum1n.set(result) 
+    last_sum1n.set(result)  # обновляем метрику
     return {"result": result}
 
 def fibonacci(n):
@@ -55,7 +55,7 @@ def fibonacci(n):
 @app.get("/fibo")
 def fibo(n: int):
     result = fibonacci(n)
-    last_fibo.set(result) 
+    last_fibo.set(result)  # обновляем метрику
     return {"result": result}
 
 items = []
@@ -68,7 +68,7 @@ def reverse(string: str = Header()):
 @app.put("/list")
 def add_to_list(element: dict = Body()):
     items.append(element["element"])
-    list_size.set(len(items)) 
+    list_size.set(len(items))  # обновляем метрику размера списка
     return {"result": items}
 
 @app.get("/list")
@@ -88,13 +88,13 @@ def calculator(expr: dict = Body()):
             result = num1 * num2
         elif operator == '/':
             if num2 == 0:
-                errors_calculator_total.inc()  
+                errors_calculator_total.inc()  # увеличиваем счетчик ошибок
                 raise HTTPException(status_code=403, detail="zerodiv")
             result = num1 / num2
         else:
             raise ValueError
-        last_calculator.set(result)  
+        last_calculator.set(result)  # обновляем метрику последнего результата
     except (ValueError, KeyError):
-        errors_calculator_total.inc()  
+        errors_calculator_total.inc()  # увеличиваем счетчик ошибок
         raise HTTPException(status_code=400, detail="invalid")
     return {"result": result}
