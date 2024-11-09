@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  fastapi-app:
+    image: jusan-fastapi-final:dockerized
+    container_name: jusan-fastapi-final
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "9090:9090"
