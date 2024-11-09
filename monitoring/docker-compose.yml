@@ -10,6 +10,22 @@ services:
       - PORT=8080
     volumes:
       - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - prometheus
+    restart: on-failure
+
+
+  grafana:
+    image: grafana/grafana:8.4.5
+    ports:
+      - "3000:3000"
+    restart: on-failure
+    depends_on:
+      - prometheus
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
 
   prometheus:
     image: prom/prometheus:latest
@@ -19,3 +35,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
     ports:
       - "9090:9090"
+    restart: on-failure
+
+volumes:
+  grafana-storage:
