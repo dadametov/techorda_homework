@@ -1,8 +1,0 @@
-[Unit]
-Description=API server
-
-[Service]
-ExecStart=/tmp/api
-
-[Install]
-Alias=api.service
